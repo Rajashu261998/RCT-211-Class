@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+import React,{useState} from 'react'
 import './App.css';
+import { store } from './Redux/store';
 
 function App() {
+
+  const {dispatch, subscribe}=store
+  const {count} =store.getState()
+  const [update, setUpdate] = useState(0)
+
+  subscribe(()=>{
+    setUpdate(()=>update+1)
+  })
+
+  const handleAdd=()=>{
+    dispatch({type:"ADD"})
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Counte{count}</h1>
+      <button onClick={handleAdd}>Add</button>
+      <button onClick={()=>dispatch({type:"REDUCE"})}>Reduce</button>
+     
     </div>
   );
 }
